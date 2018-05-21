@@ -6,6 +6,8 @@ import data.DataBase;
 import data.GenreCategory;
 import gui.FormEvent;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class Controller {
@@ -54,5 +56,9 @@ public class Controller {
         Books books = new Books(bookTitle, author, genre, genreCategory, date, comment);
 
         db.addBooks(books);
+    }
+
+    public void saveToFile(File file) throws IOException {
+        db.saveToFile(file);
     }
 }

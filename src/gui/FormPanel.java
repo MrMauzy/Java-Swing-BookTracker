@@ -42,7 +42,7 @@ public class FormPanel extends JPanel{
 
         //Radio Buttons
         fictRadio = new JRadioButton("Fiction");
-        fictRadio.setSelected(false);
+
         nonfictRadio = new JRadioButton("Non-Fiction");
         genreGroup = new ButtonGroup();
         fictRadio.setActionCommand("fiction");
@@ -76,6 +76,8 @@ public class FormPanel extends JPanel{
 
             }
         });
+
+        fictRadio.setSelected(true);
 
         DateFormat format = new SimpleDateFormat("DD/MM/YYYY");
         dateField = new JFormattedTextField(format);
