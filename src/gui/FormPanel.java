@@ -3,8 +3,9 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class FormPanel extends JPanel{
 
@@ -79,8 +80,7 @@ public class FormPanel extends JPanel{
 
         fictRadio.setSelected(true);
 
-        DateFormat format = new SimpleDateFormat("DD/MM/YYYY");
-        dateField = new JFormattedTextField(format);
+        dateField = new JFormattedTextField("MM/DD/YYYY");
         dateField.setColumns(10);
 
         //Label Setting
@@ -99,6 +99,27 @@ public class FormPanel extends JPanel{
                 boolean genre = fictRadio.isSelected();
                 String genreCat = (String) genreModel.getSelectedItem();
                 String date = dateField.getText();
+                if(date != null) {
+                    Date dateCheck = null;
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("MM/DD/YYYY");
+                        dateCheck = sdf.parse(date);
+                        if(!date.equals(sdf.format(dateCheck))) {
+                            dateCheck = null;
+                        }
+                    } catch (ParseException e1) {
+                        JOptionPane.showMessageDialog(FormPanel.this,
+                                "Not a Valid Date", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    if(dateCheck == null) {
+                        JOptionPane.showMessageDialog(FormPanel.this,
+                                "Invalid Date Format Given", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
                 String comment = commentArea.getText();
 
                 FormEvent ev = new FormEvent(this, title, author, genre, genreCat, date, comment);
