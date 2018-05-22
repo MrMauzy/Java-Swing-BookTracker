@@ -52,16 +52,24 @@ public class MainFrame extends JFrame{
 
         JMenu fileMenu = new JMenu("File");
         JMenuItem exportData = new JMenuItem("Export Book List");
+        JMenuItem importData = new JMenuItem(("Import Book List"));
         JMenuItem exitProgram = new JMenuItem("Exit");
 
         fileMenu.add(exportData);
+        fileMenu.add(importData);
         fileMenu.addSeparator();
         fileMenu.add(exitProgram);
 
         menuBar.add(fileMenu);
 
+        // Sets shortcuts to key menu items
         fileMenu.setMnemonic(KeyEvent.VK_F);
-        exitProgram.setMnemonic(KeyEvent.VK_E);
+        exportData.setMnemonic(KeyEvent.VK_E);
+        importData.setMnemonic(KeyEvent.VK_I);
+        exitProgram.setMnemonic(KeyEvent.VK_X);
+
+        //Fast track to exit the program with CTRL+X
+        exitProgram.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
 
         exportData.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -71,6 +79,22 @@ public class MainFrame extends JFrame{
                     } catch (IOException el) {
                         JOptionPane.showMessageDialog(MainFrame.this,
                                 "Could Not Save Book List",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    System.out.println(fileChooser.getSelectedFile());
+                }
+            }
+        });
+
+        importData.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        controller.loadFromFile(fileChooser.getSelectedFile());
+                        tablePanel.refresh();
+                    } catch (IOException el) {
+                        JOptionPane.showMessageDialog(MainFrame.this,
+                                "Could Not Load Selected Book File",
                                 "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     System.out.println(fileChooser.getSelectedFile());

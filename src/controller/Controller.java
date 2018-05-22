@@ -61,4 +61,8 @@ public class Controller {
     public void saveToFile(File file) throws IOException {
         db.saveToFile(file);
     }
+
+    public void loadFromFile(File file) throws IOException {
+        db.loadFromFile(file);
+    }
 }

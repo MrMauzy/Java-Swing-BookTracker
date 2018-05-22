@@ -1,9 +1,7 @@
 package data;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,5 +28,21 @@ public class DataBase {
         oos.writeObject(records);
 
         oos.close();
+    }
+
+    public void loadFromFile(File file) throws IOException {
+        FileInputStream fis = new FileInputStream(file);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+
+        try {
+            Books[] records = (Books[])ois.readObject();
+
+            bookLists.clear();
+
+            bookLists.addAll(Arrays.asList(records));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        ois.close();
     }
 }
